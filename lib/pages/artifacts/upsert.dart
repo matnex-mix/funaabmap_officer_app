@@ -137,12 +137,20 @@ class _ArtifactUpsertScreenState extends ConsumerState<ArtifactUpsertScreen> {
             TextButton(
               onPressed: () async {
                 context.push('/load');
-                final loc = await determinePosition();
+                try {
+                  final loc = await determinePosition();
 
-                lat.text = loc.latitude.toString();
-                lng.text = loc.longitude.toString();
+                  lat.text = loc.latitude.toString();
+                  lng.text = loc.longitude.toString();
 
-                setState((){});
+                  setState(() {});
+                }
+                catch(e){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.toString()),
+                    elevation: 0,
+                  ));
+                }
                 context.pop();
               },
               child: Text('Locate', style: TextStyle(fontSize: 20)),
